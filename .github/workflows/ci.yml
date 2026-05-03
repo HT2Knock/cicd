@@ -22,8 +22,13 @@ jobs:
       - name: Running test
         run: (go test -v -cover ./...)
 
-  format:
-    name: Formating
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
+
+  ci:
+    name: Style
     runs-on: ubuntu-latest
 
     steps:
@@ -36,4 +41,7 @@ jobs:
           go-version: "1.26.0"
 
       - name: Running format
-        run: (test -z $(go fmt ./...))
+        run: test -z $(go fmt ./...)
+
+      - name: Staticcheck
+        uses: dominikh/staticcheck-action@v1.4.1
