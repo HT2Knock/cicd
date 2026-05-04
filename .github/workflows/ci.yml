@@ -20,15 +20,10 @@ jobs:
           go-version: "1.26.0"
 
       - name: Running test
-        run: (go test -v -cover ./...)
+        run: go test -v -cover ./...
 
-      - name: Run Gosec Security Scanner
-        uses: securego/gosec@master
-        with:
-          args: ./...
-
-  ci:
-    name: Style
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -40,8 +35,7 @@ jobs:
         with:
           go-version: "1.26.0"
 
-      - name: Running format
-        run: test -z $(go fmt ./...)
-
-      - name: Staticcheck
-        uses: dominikh/staticcheck-action@v1.4.1
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v2.1
